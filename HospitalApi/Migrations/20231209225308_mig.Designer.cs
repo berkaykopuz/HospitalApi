@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HospitalApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231208114947_mig")]
+    [Migration("20231209225308_mig")]
     partial class mig
     {
         /// <inheritdoc />
@@ -41,9 +41,6 @@ namespace HospitalApi.Migrations
 
                     b.Property<int>("DoctorId")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("Time")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

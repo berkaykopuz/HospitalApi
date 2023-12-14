@@ -12,11 +12,13 @@ namespace HospitalApi.Helper
             CreateMap<Doctor, DoctorDto>();
             CreateMap<Clinic, ClinicDto>();
             CreateMap<HospitalClinic, HospitalClinicDto>();
+            CreateMap<Appointment, AppointmentDto>();
 
             CreateMap<DoctorDto, Doctor>();
             CreateMap<HospitalDto, Hospital>();
             CreateMap<ClinicDto, Clinic>();
             CreateMap<HospitalClinicDto, HospitalClinic>();
+            CreateMap<AppointmentDto, Appointment>();
         }
     }
 }

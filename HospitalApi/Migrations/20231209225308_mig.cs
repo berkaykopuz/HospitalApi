@@ -252,7 +252,6 @@ namespace HospitalApi.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DoctorId = table.Column<int>(type: "integer", nullable: false),
                     CitizenId = table.Column<string>(type: "text", nullable: true)
                 },

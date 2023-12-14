@@ -14,9 +14,9 @@ namespace HospitalApi.Repository
             _context = context;
         }
 
-        public Citizen GetCitizenByName(string name)
+        public Citizen GetCitizenById(string id)
         {
-            Citizen citizen = _context.Users.FirstOrDefault(c => c.UserName == name);
+            Citizen citizen = _context.Users.FirstOrDefault(c => c.Id == id);
 
             return citizen;
         }
