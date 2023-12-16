@@ -28,7 +28,7 @@ namespace HospitalApi.Controllers
         }
 
         // POST api/<HospitalClinicController>
-        [HttpPost]
+        [HttpPost("create")]
         public IActionResult Match([FromBody] HospitalClinicDto hospitalClinicCreate)
         {
             if(hospitalClinicCreate == null)
@@ -53,6 +53,19 @@ namespace HospitalApi.Controllers
             }
 
             return Ok("Match process successfully finished!");
+        }
+
+        [HttpGet("GetHospitalsByClinicId/{id}")]
+        public IActionResult GetHospitalByClinicId(int id)
+        {
+            var hospitals = _mapper.Map<List<HospitalDto>>(_hospitalClinicRepository.GetHospitalsByClinicId(id));
+
+            if(hospitals == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(hospitals);
         }
 
         

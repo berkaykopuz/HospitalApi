@@ -44,8 +44,22 @@ namespace HospitalApi.Controllers
             return Ok(doctor);
         }
 
+        [HttpGet("GetDoctorsByHospitalId/{id}")]
+        public IActionResult GetDoctorsByHospitalId(int id)
+        {
+            var doctors = _mapper.Map<List<DoctorDto>>(_doctorRepository.GetDoctorsByHospitalId(id));
+
+            if(doctors == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(doctors);
+        }
+
+
         // POST api/<DoctorController>
-        [HttpPost]
+        [HttpPost("create")]
         public IActionResult Post([FromQuery] int hospitalId, [FromBody] DoctorDto doctorCreate)
         {
 

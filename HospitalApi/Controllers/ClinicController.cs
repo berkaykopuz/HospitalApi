@@ -56,7 +56,7 @@ namespace HospitalApi.Controllers
         }
 
         // POST api/<ClinicController>
-        [HttpPost]
+        [HttpPost("create")]
         public IActionResult Post([FromBody] ClinicDto clinicCreate)
         {
             if (clinicCreate == null)
