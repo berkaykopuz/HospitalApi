@@ -70,7 +70,6 @@ namespace HospitalApi.Controllers
             {
                 UserName = registerModel.Name,
                 Email = registerModel.Email,
-                // Diğer özellikleri buraya ekleyebilirsiniz
             };
 
             string[] roleNames = { "Admin", "User" }; //if role doesnt exist then create one
@@ -88,18 +87,29 @@ namespace HospitalApi.Controllers
 
             if (result.Succeeded)
             {
-                // Kullanıcı başarıyla oluşturuldu, isteğe bağlı olarak rol ekleyebilirsiniz
-                await _userManager.AddToRoleAsync(user, UserRoles.User);
+                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
 
-                // Giriş yaparak token oluşturabilir ve kullanıcıya geri döndürebilirsiniz
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
-                var token = GenerateJwtToken(user, new List<string> { "User" }); // varsayılan olarak "user" rolü eklenmiştir
+                var token = GenerateJwtToken(user, new List<string> { UserRoles.Admin }); // varsayılan olarak "user" rolü eklenmiştir
 
                 return Ok(new { Token = token, UserName = user.UserName, Email = user.Email });
             }
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCitizenByEmail(string email)
+        {
+            var citizen = await _userManager.FindByEmailAsync(email);
+
+            if(citizen == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(citizen);
         }
 
 
