@@ -87,11 +87,11 @@ namespace HospitalApi.Controllers
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+                await _userManager.AddToRoleAsync(user, UserRoles.User);
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
-                var token = GenerateJwtToken(user, new List<string> { UserRoles.Admin }); // varsayılan olarak "user" rolü eklenmiştir
+                var token = GenerateJwtToken(user, new List<string> { UserRoles.User }); // varsayılan olarak "user" rolü eklenmiştir
 
                 return Ok(new { Token = token, UserName = user.UserName, Email = user.Email });
             }
@@ -116,7 +116,7 @@ namespace HospitalApi.Controllers
         private string GenerateJwtToken(Citizen user, IList<string> roles)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("Te@in+=N?EXW#piHTe@in+=N?EXW#piH");
+            var key = Convert.FromBase64String("401b09eab3c013d4ca54922bb802bec8fd5318192b0a75f201d8b3727429090fb337591abd3e44453b954555b7a0812e1081c39b740293f765eae731f5a65ed1");
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
