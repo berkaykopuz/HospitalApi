@@ -9,5 +9,6 @@ namespace HospitalApi.Interfaces
         Task<IEnumerable<Appointment>> GetAll();
 
         bool IsTaken(Appointment appointment);
+        List<Appointment> GetAppointmentsByDoctorId(int id);
     }
 }

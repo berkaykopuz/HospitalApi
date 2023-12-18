@@ -2,6 +2,7 @@
 using HospitalApi.Interfaces;
 using HospitalApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace HospitalApi.Repository
 {
@@ -34,6 +35,13 @@ namespace HospitalApi.Repository
             var isTaken = _context.Appointments.Any(a => a.Doctor == appointment.Doctor && a.Date == appointment.Date);
 
             return isTaken;
+        }
+        
+        public List<Appointment> GetAppointmentsByDoctorId(int id)
+        {
+            var appointments = _context.Appointments.Where(a => a.Doctor.Id == id).ToList();
+
+            return appointments;
         }
     }
 }

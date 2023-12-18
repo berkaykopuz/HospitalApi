@@ -63,5 +63,13 @@ namespace HospitalApi.Controllers
             bool isTaken = _appointmentRepository.IsTaken(appointment);
             return Ok(isTaken);
         }
+
+        [HttpGet("getbydoctorid")]
+        public IActionResult GetAppointmentsByDoctorId(int id)
+        {
+            var appointments = _appointmentRepository.GetAppointmentsByDoctorId(id);
+
+            return Ok(appointments);
+        }
     }
 }
