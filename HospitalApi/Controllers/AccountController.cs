@@ -87,11 +87,11 @@ namespace HospitalApi.Controllers
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, UserRoles.User);
+                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
-                var token = GenerateJwtToken(user, new List<string> { UserRoles.User }); // varsayılan olarak "user" rolü eklenmiştir
+                var token = GenerateJwtToken(user, new List<string> { UserRoles.Admin }); // varsayılan olarak "user" rolü eklenmiştir
 
                 return Ok(new { Token = token, UserName = user.UserName, Email = user.Email });
             }

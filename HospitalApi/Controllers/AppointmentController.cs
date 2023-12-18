@@ -52,5 +52,16 @@ namespace HospitalApi.Controllers
 
             return Ok("Appointment has successfully created !");
         }
+
+        [HttpPost("istaken")]
+        public IActionResult IsTaken(AppointmentDto appointmentCreate)
+        {
+            var appointment = _mapper.Map<Appointment>(appointmentCreate);
+            appointment.Doctor = _doctorRepository.GetDoctorById(appointmentCreate.DoctorId);
+            appointment.Citizen = _citizenRepository.GetCitizenById(appointmentCreate.CitizenId);
+
+            bool isTaken = _appointmentRepository.IsTaken(appointment);
+            return Ok(isTaken);
+        }
     }
 }

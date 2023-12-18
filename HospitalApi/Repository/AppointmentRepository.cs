@@ -28,5 +28,12 @@ namespace HospitalApi.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool IsTaken(Appointment appointment)
+        {
+            var isTaken = _context.Appointments.Any(a => a.Doctor == appointment.Doctor && a.Date == appointment.Date);
+
+            return isTaken;
+        }
     }
 }

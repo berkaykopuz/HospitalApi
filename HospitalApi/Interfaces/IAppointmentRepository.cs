@@ -7,5 +7,7 @@ namespace HospitalApi.Interfaces
         bool Add(Appointment appointment);
         bool Save();
         Task<IEnumerable<Appointment>> GetAll();
+
+        bool IsTaken(Appointment appointment);
     }
 }
