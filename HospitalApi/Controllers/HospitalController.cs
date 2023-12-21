@@ -124,7 +124,7 @@ namespace HospitalApi.Controllers
         }
 
         // DELETE api/<HospitalController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public IActionResult Delete(int id)
         {
             if (!_hospitalRepository.HospitalExists(id))
