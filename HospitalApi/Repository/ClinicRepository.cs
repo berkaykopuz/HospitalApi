@@ -56,5 +56,6 @@ namespace HospitalApi.Repository
         {
             return _context.Clinics.Any(c => c.Id == clinicId);
         }
+
     }
 }

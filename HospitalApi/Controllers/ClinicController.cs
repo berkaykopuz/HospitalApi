@@ -45,7 +45,7 @@ namespace HospitalApi.Controllers
                 return NotFound();
             }
 
-            var clinic = _mapper.Map<HospitalDto>(_clinicRepository.GetClinicById(id));
+            var clinic = _mapper.Map<ClinicDto>(_clinicRepository.GetClinicById(id));
 
             if (!ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace HospitalApi.Controllers
         }
 
         // PUT api/<ClinicController>/5
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public IActionResult Put(int id, [FromBody] ClinicDto updatedClinic)
         {
             if (updatedClinic == null)
@@ -122,8 +122,24 @@ namespace HospitalApi.Controllers
 
         // DELETE api/<ClinicController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (!_clinicRepository.ClinicExists(id))
+            {
+                return NotFound();
+            }
+
+            var deletedClinic = _clinicRepository.GetClinicById(id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_clinicRepository.Delete(deletedClinic))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting owner");
+            }
+
+            return NoContent();
         }
     }
 }

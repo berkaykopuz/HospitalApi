@@ -89,7 +89,7 @@ namespace HospitalApi.Controllers
         }
 
         // PUT api/<HospitalController>/5
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public IActionResult Put(int id, [FromBody] HospitalDto updatedHospital)
         {
             if(updatedHospital == null)
@@ -125,8 +125,24 @@ namespace HospitalApi.Controllers
 
         // DELETE api/<HospitalController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            if (!_hospitalRepository.HospitalExists(id))
+            {
+                return NotFound();
+            }
+
+            var deletedHospital = _hospitalRepository.GetHospitalById(id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_hospitalRepository.Delete(deletedHospital))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting owner");
+            }
+
+            return NoContent();
         }
     }
 }
