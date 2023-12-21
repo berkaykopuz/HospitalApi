@@ -4,6 +4,7 @@ using HospitalApi.Interfaces;
 using HospitalApi.Models;
 using HospitalApi.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -89,8 +90,37 @@ namespace HospitalApi.Controllers
 
         // PUT api/<HospitalController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] HospitalDto updatedHospital)
         {
+            if(updatedHospital == null)
+            {
+                return BadRequest(updatedHospital);
+            }
+
+            if(id != updatedHospital.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_hospitalRepository.HospitalExists(id))
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var hospitalMap = _mapper.Map<Hospital>(updatedHospital);
+
+            if(!_hospitalRepository.Update(hospitalMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating owner");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
 
         // DELETE api/<HospitalController>/5

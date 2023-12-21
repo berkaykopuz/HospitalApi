@@ -87,8 +87,37 @@ namespace HospitalApi.Controllers
 
         // PUT api/<ClinicController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] ClinicDto updatedClinic)
         {
+            if (updatedClinic == null)
+            {
+                return BadRequest(updatedClinic);
+            }
+
+            if (id != updatedClinic.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_clinicRepository.ClinicExists(id))
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var clinicMap = _mapper.Map<Clinic>(updatedClinic);
+
+            if (!_clinicRepository.Update(clinicMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating owner");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
 
         // DELETE api/<ClinicController>/5

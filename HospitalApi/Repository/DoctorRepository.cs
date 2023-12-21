@@ -53,5 +53,10 @@ namespace HospitalApi.Repository
 
             return doctors;
         }
+
+        public bool DoctorExists(int doctorId)
+        {
+            return _context.Doctors.Any(h => h.Id == doctorId);
+        }
     }
 }

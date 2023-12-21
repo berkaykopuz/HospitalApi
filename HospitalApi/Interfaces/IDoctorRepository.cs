@@ -11,5 +11,6 @@ namespace HospitalApi.Interfaces
         bool Save();
         Doctor GetDoctorById(int doctorId);
         ICollection<Doctor> GetDoctorsByHospitalId(int id);
+        bool DoctorExists(int doctorId);
     }
 }
