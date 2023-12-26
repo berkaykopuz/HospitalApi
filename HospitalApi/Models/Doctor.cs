@@ -14,6 +14,7 @@ namespace HospitalApi.Models
         public string Email { get; set; }
 
         public Hospital Hospital { get; set; }
+        public ICollection<Timing>? Timings { get; set; }
 
         public ICollection<Appointment> ?Appointments { get; set; }
 

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HospitalApi.Migrations
 {
     /// <inheritdoc />
-    public partial class mig1 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -271,6 +271,28 @@ namespace HospitalApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Timings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WorkDay = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    shiftStart = table.Column<int>(type: "integer", nullable: false),
+                    shiftEnd = table.Column<int>(type: "integer", nullable: false),
+                    DoctorId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Timings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Timings_Doctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_CitizenId",
                 table: "Appointments",
@@ -327,6 +349,11 @@ namespace HospitalApi.Migrations
                 name: "IX_HospitalClinics_ClinicId",
                 table: "HospitalClinics",
                 column: "ClinicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Timings_DoctorId",
+                table: "Timings",
+                column: "DoctorId");
         }
 
         /// <inheritdoc />
@@ -357,7 +384,7 @@ namespace HospitalApi.Migrations
                 name: "HospitalClinics");
 
             migrationBuilder.DropTable(
-                name: "Doctors");
+                name: "Timings");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -367,6 +394,9 @@ namespace HospitalApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Clinics");
+
+            migrationBuilder.DropTable(
+                name: "Doctors");
 
             migrationBuilder.DropTable(
                 name: "Hospitals");

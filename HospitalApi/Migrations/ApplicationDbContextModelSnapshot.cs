@@ -220,6 +220,33 @@ namespace HospitalApi.Migrations
                     b.ToTable("HospitalClinics");
                 });
 
+            modelBuilder.Entity("HospitalApi.Models.Timing", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("WorkDay")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("shiftEnd")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("shiftStart")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("Timings");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -399,6 +426,17 @@ namespace HospitalApi.Migrations
                     b.Navigation("Hospital");
                 });
 
+            modelBuilder.Entity("HospitalApi.Models.Timing", b =>
+                {
+                    b.HasOne("HospitalApi.Models.Doctor", "Doctor")
+                        .WithMany("Timings")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -463,6 +501,8 @@ namespace HospitalApi.Migrations
             modelBuilder.Entity("HospitalApi.Models.Doctor", b =>
                 {
                     b.Navigation("Appointments");
+
+                    b.Navigation("Timings");
                 });
 
             modelBuilder.Entity("HospitalApi.Models.Hospital", b =>

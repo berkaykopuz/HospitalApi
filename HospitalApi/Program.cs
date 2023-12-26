@@ -19,6 +19,7 @@ builder.Services.AddScoped<IClinicRepository, ClinicRepository>();
 builder.Services.AddScoped<ICitizenRepository, CitizenRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IHospitalClinicRepository, HospitalClinicRepository>();
+builder.Services.AddScoped<ITimingRepository, TimingRepository>();
 builder.Services.AddIdentity<Citizen, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddSession();

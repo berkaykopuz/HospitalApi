@@ -18,6 +18,7 @@ namespace HospitalApi.Data
         public DbSet<Hospital> Hospitals { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Timing> Timings { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
