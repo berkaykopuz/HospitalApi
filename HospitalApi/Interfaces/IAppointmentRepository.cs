@@ -10,5 +10,6 @@ namespace HospitalApi.Interfaces
 
         bool IsTaken(Appointment appointment);
         List<Appointment> GetAppointmentsByDoctorId(int id);
+        List<Appointment> GetAppointmentsByUserId(string id);
     }
 }

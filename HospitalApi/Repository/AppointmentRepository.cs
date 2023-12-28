@@ -43,5 +43,12 @@ namespace HospitalApi.Repository
 
             return appointments;
         }
+
+        public List<Appointment> GetAppointmentsByUserId(string id)
+        {
+            var appointments = _context.Appointments.Where(a => a.Citizen.Id == id).ToList();
+
+            return appointments;
+        }
     }
 }

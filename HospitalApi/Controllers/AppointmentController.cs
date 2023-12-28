@@ -71,5 +71,13 @@ namespace HospitalApi.Controllers
 
             return Ok(appointments);
         }
+
+        [HttpGet("getbyuserid")]
+        public IActionResult GetAppointmentsByUserId(string id)
+        {
+            var appointments = _appointmentRepository.GetAppointmentsByUserId(id);
+
+            return Ok(appointments);
+        }
     }
 }
