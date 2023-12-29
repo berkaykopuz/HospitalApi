@@ -30,6 +30,12 @@ namespace HospitalApi.Repository
             return saved > 0 ? true : false;
         }
 
+        public bool Delete(Appointment appointment)
+        {
+            _context.Remove(appointment);
+            return Save();
+        }
+
         public bool IsTaken(Appointment appointment)
         {
             var isTaken = _context.Appointments.Any(a => a.Doctor == appointment.Doctor && a.Date == appointment.Date);
@@ -49,6 +55,11 @@ namespace HospitalApi.Repository
             var appointments = _context.Appointments.Where(a => a.Citizen.Id == id).ToList();
 
             return appointments;
+        }
+
+        public Appointment GetAppointmentById(int id)
+        {
+            return _context.Appointments.FirstOrDefault(a => a.Id == id);
         }
     }
 }

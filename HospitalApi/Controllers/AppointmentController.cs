@@ -2,6 +2,7 @@
 using HospitalApi.Dto;
 using HospitalApi.Interfaces;
 using HospitalApi.Models;
+using HospitalApi.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -78,6 +79,22 @@ namespace HospitalApi.Controllers
             var appointments = _appointmentRepository.GetAppointmentsByUserId(id);
 
             return Ok(appointments);
+        }
+
+        [HttpDelete("delete/{id}")]
+        public IActionResult Delete(int id)
+        {
+            var deletedAppointment = _appointmentRepository.GetAppointmentById(id);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_appointmentRepository.Delete(deletedAppointment))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting owner");
+            }
+
+            return NoContent();
         }
     }
 }
