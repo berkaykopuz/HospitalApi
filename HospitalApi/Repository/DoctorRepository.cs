@@ -47,9 +47,9 @@ namespace HospitalApi.Repository
             return _context.Doctors.Find(doctorId);
         }
 
-        public ICollection<Doctor> GetDoctorsByHospitalId(int hospitalId)
+        public ICollection<Doctor> GetDoctorsByHospitalAndClinicId(int hospitalId, int clinicId)
         {
-            var doctors = _context.Doctors.Where(d => d.Hospital.Id == hospitalId).ToList();
+            var doctors = _context.Doctors.Where(d => d.Hospital.Id == hospitalId && d.Clinic.Id == clinicId).ToList();
 
             return doctors;
         }

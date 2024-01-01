@@ -208,11 +208,18 @@ namespace HospitalApi.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    HospitalId = table.Column<int>(type: "integer", nullable: false)
+                    HospitalId = table.Column<int>(type: "integer", nullable: false),
+                    ClinicId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctors_Clinics_ClinicId",
+                        column: x => x.ClinicId,
+                        principalTable: "Clinics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Doctors_Hospitals_HospitalId",
                         column: x => x.HospitalId,
@@ -341,6 +348,11 @@ namespace HospitalApi.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Doctors_ClinicId",
+                table: "Doctors",
+                column: "ClinicId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Doctors_HospitalId",
                 table: "Doctors",
                 column: "HospitalId");
@@ -393,10 +405,10 @@ namespace HospitalApi.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Clinics");
+                name: "Doctors");
 
             migrationBuilder.DropTable(
-                name: "Doctors");
+                name: "Clinics");
 
             migrationBuilder.DropTable(
                 name: "Hospitals");

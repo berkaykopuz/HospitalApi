@@ -170,6 +170,9 @@ namespace HospitalApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ClinicId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -182,6 +185,8 @@ namespace HospitalApi.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClinicId");
 
                     b.HasIndex("HospitalId");
 
@@ -398,11 +403,19 @@ namespace HospitalApi.Migrations
 
             modelBuilder.Entity("HospitalApi.Models.Doctor", b =>
                 {
+                    b.HasOne("HospitalApi.Models.Clinic", "Clinic")
+                        .WithMany("Doctors")
+                        .HasForeignKey("ClinicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("HospitalApi.Models.Hospital", "Hospital")
                         .WithMany("Doctors")
                         .HasForeignKey("HospitalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Clinic");
 
                     b.Navigation("Hospital");
                 });
@@ -495,6 +508,8 @@ namespace HospitalApi.Migrations
 
             modelBuilder.Entity("HospitalApi.Models.Clinic", b =>
                 {
+                    b.Navigation("Doctors");
+
                     b.Navigation("HospitalClinics");
                 });
 

@@ -10,7 +10,7 @@ namespace HospitalApi.Interfaces
         bool Delete(Doctor doctor);
         bool Save();
         Doctor GetDoctorById(int doctorId);
-        ICollection<Doctor> GetDoctorsByHospitalId(int id);
+        ICollection<Doctor> GetDoctorsByHospitalAndClinicId(int hospitalId, int clinicId);
         bool DoctorExists(int doctorId);
     }
 }

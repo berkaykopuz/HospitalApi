@@ -16,12 +16,15 @@ namespace HospitalApi.Controllers
         
         private readonly IDoctorRepository _doctorRepository;
         private readonly IHospitalRepository _hospitalRepository;
+        private readonly IClinicRepository _clinicRepository;
         private readonly IMapper _mapper;
 
-        public DoctorController(IDoctorRepository doctorRepository, IHospitalRepository hospitalRepository, IMapper mapper)
+        public DoctorController(IDoctorRepository doctorRepository, IHospitalRepository hospitalRepository, 
+            IClinicRepository clinicRepository ,IMapper mapper)
         {
             _doctorRepository = doctorRepository;
             _hospitalRepository = hospitalRepository;
+            _clinicRepository = clinicRepository;
             _mapper = mapper;
         }
 
@@ -45,10 +48,10 @@ namespace HospitalApi.Controllers
             return Ok(doctor);
         }
 
-        [HttpGet("GetDoctorsByHospitalId/{id}")]
-        public IActionResult GetDoctorsByHospitalId(int id)
+        [HttpGet("GetDoctorsByHospitalAndClinicId/{hospitalId}/{clinicId}")]
+        public IActionResult GetDoctorsByHospitalAndClinicId(int hospitalId, int clinicId)
         {
-            var doctors = _mapper.Map<List<DoctorDto>>(_doctorRepository.GetDoctorsByHospitalId(id));
+            var doctors = _mapper.Map<List<DoctorDto>>(_doctorRepository.GetDoctorsByHospitalAndClinicId(hospitalId, clinicId));
 
             if(doctors == null)
             {
@@ -61,7 +64,7 @@ namespace HospitalApi.Controllers
 
         // POST api/<DoctorController>
         [HttpPost("create")]
-        public IActionResult Post([FromQuery] int hospitalId, [FromBody] DoctorDto doctorCreate)
+        public IActionResult Post([FromQuery] int hospitalId, [FromQuery] int clinicId,[FromBody] DoctorDto doctorCreate)
         {
 
             if (doctorCreate == null)
@@ -79,6 +82,7 @@ namespace HospitalApi.Controllers
             var doctorMap = _mapper.Map<Doctor>(doctorCreate);
             
             doctorMap.Hospital = _hospitalRepository.GetHospitalById(hospitalId);
+            doctorMap.Clinic = _clinicRepository.GetClinicById(clinicId);
 
             if(!_doctorRepository.Add(doctorMap))
             {
