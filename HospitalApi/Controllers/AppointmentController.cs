@@ -68,7 +68,11 @@ namespace HospitalApi.Controllers
         [HttpGet("getbydoctorid")]
         public IActionResult GetAppointmentsByDoctorId(int id)
         {
-            var appointments = _appointmentRepository.GetAppointmentsByDoctorId(id);
+            var appointments = _mapper.Map<List<AppointmentDto>>(_appointmentRepository.GetAppointmentsByDoctorId(id));
+            if(appointments == null)
+            {
+                return NotFound();
+            }
 
             return Ok(appointments);
         }
